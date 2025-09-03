@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Credit Card Application</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1a1a2e;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: #2b2b40;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            max-width: 450px;
+            text-align: center;
+        }
+        h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 30px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #b0b0d0;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            background-color: #3e3e5c;
+            color: white;
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-size: 16px;
+            font-weight: 400;
+        }
+        input::placeholder {
+            color: #7a7a9a;
+            font-weight: 400;
+        }
+        button {
+            width: 100%;
+            padding: 15px;
+            background-color: #4b7bec;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #3b6fc2;
+        }
+        .info-text {
+            color: #b0b0d0;
+            font-size: 13px;
+            margin-top: 25px;
+            line-height: 1.5;
+        }
+        .footer-text {
+            color: #7a7a9a;
+            font-size: 12px;
+            margin-top: 20px;
+        }
+        .response-message {
+            margin-top: 20px;
+            font-weight: 600;
+            display: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+        .success {
+            color: #c3e6cb;
+            background-color: #1f3d2f;
+        }
+        .error {
+            color: #f5c6cb;
+            background-color: #4d262d;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Digital Credit Card<br>Application</h1>
+        <form id="leadForm" action="https://script.google.com/macros/s/AKfycbwRmTrhZM2jGX25D1_X7tPmX85qbeYRyuMVKH6cNdf804H6morSv1hFGj1EZ5j32g_EeA/exec" method="POST">
+            <div class="form-group">
+                <label for="fullName">Full Name</label>
+                <input type="text" id="fullName" name="fullName" placeholder="Example: Sumit Sharma" required>
+            </div>
+            <div class="form-group">
+                <label for="mobileNumber">Mobile Number</label>
+                <input type="text" id="mobileNumber" name="mobileNumber" placeholder="Example: 9876543210" required>
+            </div>
+            <button type="submit">Apply Now</button>
+            <div class="info-text">
+                Your Name & Mobile Number help us to assist you to<br>complete your Application. (Not Mandatory)
+            </div>
+            <div class="footer-text">
+                Your information is secure and encrypted.
+            </div>
+        </form>
+        <div id="responseMessage" class="response-message"></div>
+    </div>
+
+    <script>
+        const form = document.getElementById('leadForm');
+        const responseMessage = document.getElementById('responseMessage');
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            responseMessage.textContent = 'Submitting...';
+            responseMessage.className = 'response-message';
+            responseMessage.style.display = 'block';
+
+            const formData = new FormData(form);
+            const url = form.action;
+
+            fetch(url, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text())
+            .then(data => {
+                if (data.includes("Success")) {
+                    responseMessage.textContent = 'Details submitted successfully!';
+                    responseMessage.className = 'response-message success';
+                    form.reset();
+                } else {
+                    responseMessage.textContent = 'An error occurred. Please try again.';
+                    responseMessage.className = 'response-message error';
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                responseMessage.textContent = 'An error occurred. Please try again.';
+                responseMessage.className = 'response-message error';
+            });
+        });
+    </script>
+</body>
+</html>
